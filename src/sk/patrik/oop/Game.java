@@ -1,14 +1,25 @@
 package sk.patrik.oop;
 
+import sk.patrik.oop.planets.Handler;
+
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
 public class Game extends Canvas implements Runnable {
     private boolean isRunning;
     private Thread thread;
+    private Handler handler;
+
     public Game(){
         new Window(1000,563,"SolarSytem",this);
         start();
+
+        handler = new Handler();
+
+        handler.addObject(new Box(100,100));
+        handler.addObject(new Box(100,200));
+        handler.addObject(new Box(200,200));
+        handler.addObject(new Box(200,100));
     }
 
     private void start(){
@@ -54,7 +65,7 @@ public class Game extends Canvas implements Runnable {
         stop();
     }
     public void tick(){
-
+        handler.tick();
     }
     public void render(){
         BufferStrategy bs = this.getBufferStrategy();
@@ -64,6 +75,10 @@ public class Game extends Canvas implements Runnable {
         }
         Graphics g = bs.getDrawGraphics();
         /////////////////////////////////////////
+        g.setColor(Color.DARK_GRAY);
+        g.fillRect(0,0,1000,563);
+
+        handler.render(g);
 
         //////////////////////////////////////////
         g.dispose();
