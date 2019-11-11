@@ -1,5 +1,9 @@
 package sk.patrik.oop;
 
+import sk.patrik.oop.planets.Asteroid;
+import sk.patrik.oop.planets.Planet;
+import sk.patrik.oop.planets.Sun;
+
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
@@ -9,37 +13,34 @@ public class Game extends Canvas implements Runnable {
     private Thread thread;
     private Handler handler;
     private Camera camera;
-    private BufferedImage level = null;
-    private BufferedImage sprite_sheet = null;
+    private BufferedImage level2 = null;
+    private BufferedImage level1 = null;
     private BufferedImage floor = null;
     private SpriteSheet ss;
+    private Soldier soldier;
+    private SpriteSheet starAnimation;
+    private Sun sun;
+    private static int level;
 
-    private int ammo;
+    //private int ammo;
     private int pixel, red, blue, green;
 
-    private int hp = 100;
+    //private int hp = 100;
 
 
 
     public Game(){
-        new Window(1000,563,"SolarSytem",this);
+        new Window(1000,563,"SolarSystem",this);
         start();
-        setAmmo(10);
+        level = 1;
         handler = new Handler();
         camera = new Camera(0,0);
-        this.addKeyListener(new KeyInput(handler));
-
-
         BufferedImageLoader loader = new BufferedImageLoader();
-        level = loader.loadImage("/someLevel.png");
-        sprite_sheet = loader.loadImage("/sprite_sheet.png");
-        ss = new SpriteSheet(sprite_sheet);
-
-        floor = ss.grabImage(4,2,32,32);
-
-        this.addMouseListener(new MouseInput(handler, camera, this,ss));
-        loadLevel(level);
-
+        level2 = loader.loadImage("/someLevel.png");
+        level1 = loader.loadImage("/newSolarSystem.png");
+        starAnimation = new SpriteSheet(loader.loadImage("/stars.png"));
+        ss = new SpriteSheet(loader.loadImage("/sprite_sheet.png"));
+        loadLevel(level1, level ,handler);
     }
 
     private void start(){
@@ -60,6 +61,7 @@ public class Game extends Canvas implements Runnable {
     @Override
     public void run() {
         this.requestFocus();
+        long now;
         long lastTime = System.nanoTime();
         double amountOfTicks = 60.0;
         double ns = 1000000000 / amountOfTicks;
@@ -67,7 +69,7 @@ public class Game extends Canvas implements Runnable {
         long timer = System.currentTimeMillis();
         int frames = 0;
         while (isRunning) {
-            long now = System.nanoTime();
+            now = System.nanoTime();
             delta += (now - lastTime) /ns;
             lastTime = now;
             while(delta >= 1) {
@@ -86,9 +88,23 @@ public class Game extends Canvas implements Runnable {
     }
     public void tick(){
 
-        for(int i = 0; i < handler.object.size(); i++){
-            if(handler.object.get(i).getId() == ID.Player){
-                camera.tick(handler.object.get(i));
+        for(int i = 0; i < handler.getObject().size(); i++){
+            if(handler.getObject().get(i).getId() == ID.Player){
+                camera.tick(handler.getObject().get(i));
+            }
+        }
+        for(int i = 0; i < handler.getObject().size(); i++){
+            if(handler.getObject().get(i).getId() == ID.SpaceShip){
+                camera.tick(handler.getObject().get(i));
+                if(SpaceShip.getEnd()){
+                    SpaceShip.setEnd(false);
+                    handler = null;
+                    handler = new Handler();
+                    level = 2;
+                    loadLevel(level2,level,handler);
+
+                }
+
             }
         }
 
@@ -115,20 +131,26 @@ public class Game extends Canvas implements Runnable {
         handler.render(g);
         g2d.translate(camera.getX(), camera.getY());
 
+
+
         //**********health bar********************
-        g.setColor(Color.GRAY);
-        g.fillRect(5,5,200,32);
-        g.setColor(Color.GREEN);
-        g.fillRect(5,5,hp*2,32);
-        g.setColor(Color.black);
-        g.drawRect(5,5,200,32);
+        if(level == 2) {
+            g.setColor(Color.GRAY);
+            g.fillRect(5, 5, 200, 32);
+            g.setColor(Color.GREEN);
+            g.fillRect(5, 5, soldier.getHp() * 2, 32);
+            g.setColor(Color.black);
+            g.drawRect(5, 5, 200, 32);
 
-        //***************ammo bar***************
-        g.setColor(Color.white);
-        g.drawString("Ammo : " + getAmmo(),5,50);
-
-        if(getHp() <= 0){
-
+            //***************ammo***************
+            g.setColor(Color.white);
+            g.setFont(new Font("TimesRoman", Font.BOLD,15));
+            g.drawString("Ammo : " + soldier.getAmmo(), 5, 50);
+        }
+        if(level == 1){
+            g.setColor(Color.RED);
+            g.setFont(new Font("TimesRoman", Font.BOLD,20));
+            g.drawString("Destroy the Earth!", 5, 50);
         }
 
         //////////////////////////////////////////
@@ -137,52 +159,95 @@ public class Game extends Canvas implements Runnable {
     }
 
 
-    //************************************ammo***********************
 
-    public int getAmmo() {
-        return ammo;
+
+
+    public static int getLevel(){
+        return level;
     }
 
-    public void setAmmo(int ammo) {
-        this.ammo = ammo;
-    }
-
-    //***********************************************
-
-    //********************health*****************
-    public int getHp() {
-        return hp;
-    }
-
-    public void setHp(int hp) {
-        this.hp = hp;
-    }
     //***********************************************
     //loading level
-    private void loadLevel (BufferedImage image){
-        int w = image.getWidth();
-        int h = image.getHeight();
+    public void loadLevel (BufferedImage image, int level, Handler handler){
 
-        for(int xx = 0; xx < w; xx++){
-            for(int yy = 0; yy < h; yy++){
-                pixel = image.getRGB(xx, yy);
-                red = (pixel >> 16) & 0xff;
-                green = (pixel >> 8) & 0xff;
-                blue = (pixel) & 0xff;
+        if(level == 2){
+            int w = image.getWidth();
+            int h = image.getHeight();
+            floor = ss.grabImage(4,2,32,32);
 
-                if(red == 255)
-                    handler.addObject(new Block(xx*32, yy*32, ID.Block,ss));
+            for(int xx = 0; xx < w; xx++) {
+                for (int yy = 0; yy < h; yy++) {
+                    pixel = image.getRGB(xx, yy);
+                    red = (pixel >> 16) & 0xff;
+                    green = (pixel >> 8) & 0xff;
+                    blue = (pixel) & 0xff;
 
-                if(blue == 255 && green == 0)
-                    handler.addObject(new Soldier(xx*32, yy*32,ID.Player, handler,this,ss));
+                    if (red == 255 && blue == 0)
+                        handler.addObject(new Block(xx * 32, yy * 32, ID.Block, null));
 
-                if(green == 255 && blue == 0)
-                    handler.addObject(new Enemy(xx*32, yy*32, ID.Enemy, handler,ss));
+                    if (blue == 255 && green == 0 && red == 0) {
+                        soldier = new Soldier(xx * 32, yy * 32, ID.Player, handler, "/player.png", 100, 20);
+                        handler.addObject(soldier);
+                        this.addMouseListener(new MouseInput(handler, camera, soldier));
+                    }
+                    if (green == 255 && blue == 0)
+                        handler.addObject(new Enemy(xx * 32, yy * 32, ID.Enemy, handler, "/sprite_sheet.png"));
 
-                if(green == 255 && blue == 255)
-                    handler.addObject(new Crate(xx*32, yy*32,ID.Crate,ss));
+                    if (green == 255 && blue == 255)
+                        handler.addObject(new Crate(xx * 32, yy * 32, ID.Crate, "/box.png"));
+                }
             }
         }
+        if(level == 1){
+            int w = image.getWidth();
+            int h = image.getHeight();
+
+
+            floor = starAnimation.grabImage(1,1,32,32);  //background
+
+            for(int xx = 0; xx < w; xx++) {
+                for (int yy = 0; yy < h; yy++) {
+                    pixel = image.getRGB(xx, yy);
+                    red = (pixel >> 16) & 0xff;
+                    green = (pixel >> 8) & 0xff;
+                    blue = (pixel) & 0xff;
+
+                    if (red == 255 && blue == 0 && green == 0) {
+                        sun = new Sun(xx * 32, yy * 32, ID.Star, "/sun.png");
+                        handler.addObject(sun);
+                    }
+
+                    if (red == 0 && blue == 0 && green == 255)
+                        handler.addObject(new Planet(xx * 32, yy * 32, ID.Planet, "/mercury.png","Mercury",0.1,sun));
+
+                    if (red == 0 && blue == 255 && green == 0)
+                        handler.addObject(new Planet(xx * 32, yy * 32, ID.Planet, "/venus.png", "Venus",0.4,sun));
+
+                    if (red == 0 && blue == 255 && green == 255)
+                        handler.addObject(new Planet(xx * 32, yy * 32, ID.Earth, "/earth.png","Earth",0.5,sun));
+
+                    if (red == 255 && blue == 255 && green == 255)
+                        handler.addObject(new Planet(xx * 32, yy * 32, ID.Planet, "/mars.png","Mars",0.75,sun));
+
+                    if (red == 255 && blue == 255 && green == 0)
+                        handler.addObject(new Planet(xx * 32, yy * 32, ID.Planet, "/jupiter.png","Jupiter",1,sun));
+
+                    if (red == 255 && blue == 0 && green == 255)
+                        handler.addObject(new Planet(xx * 32, yy * 32, ID.Planet, "/saturn.png","Saturn",0.55,sun));
+
+                    if (red == 255 && blue == 0 && green == 128)
+                        handler.addObject(new Planet(xx * 32, yy * 32, ID.Planet, "/uranus.png","Uranus",0.59,sun));
+
+                    if (red == 255 && blue == 128 && green == 128)
+                        handler.addObject(new Planet(xx * 32, yy * 32, ID.Planet, "/neptune.png","Neptune",1,sun));
+
+                    if (red == 128 && blue == 128 && green == 128)
+                        handler.addObject(new Asteroid(xx * 32, yy * 32, ID.Player, "/asteroid.png",handler));
+                }
+            }
+        }
+        this.addKeyListener(new KeyInput(handler));
+
     }
 
     public static void main(String[] args) {

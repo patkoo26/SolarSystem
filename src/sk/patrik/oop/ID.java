@@ -1,10 +1,20 @@
 package sk.patrik.oop;
 
 public enum ID {
+
+
+    //**************level 1*********
     Player(),
-    Block(),
+    SpaceShip(),
+    Planet(),
+    Star(),
+    Earth(),
+
+    //******************level 2********************
     Crate(),
     Bullet(),
-    Enemy();
+    Enemy(),
+    Block();
+
 
 }

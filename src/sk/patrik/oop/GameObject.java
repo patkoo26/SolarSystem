@@ -5,17 +5,17 @@ import java.awt.*;
 public abstract class GameObject {
     protected int x = 0, y = 0;
     protected float velX = 0, velY = 0;
-    protected SpriteSheet ss;
+    protected String path;
 
 
 
     protected ID id;
 
-    public GameObject(int x, int y, ID id, SpriteSheet ss){
+    public GameObject(int x, int y, ID id, String path){
         this.x = x;
         this.y = y;
         this.id = id;
-        this.ss = ss;
+        this.path = path;
     }
 
     public abstract void tick();

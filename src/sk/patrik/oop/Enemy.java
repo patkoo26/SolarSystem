@@ -9,16 +9,18 @@ public class Enemy extends GameObject {
     private BufferedImage[] enemy_image = new BufferedImage[3];
     private Animation anim;
     Random r = new Random();
+    private SpriteSheet enemySpriteSheet;
     int choose = 0;
     int hp = 100;
     GameObject tempObject;
 
-    public Enemy(int x, int y, ID id, Handler handler, SpriteSheet ss) {
-        super(x, y, id,ss);
+    public Enemy(int x, int y, ID id, Handler handler, String path) {
+        super(x, y, id,path);
         this.handler = handler;
-
+        BufferedImageLoader loader = new BufferedImageLoader();
+        enemySpriteSheet = new SpriteSheet(loader.loadImage(path));
         for(int i = 0; i < enemy_image.length; i++) {
-            enemy_image[i] = ss.grabImage(i+4, 1, 32, 32);
+            enemy_image[i] = enemySpriteSheet.grabImage(i+4, 1, 32, 32);
         }
 
         anim = new Animation(3,enemy_image[0],enemy_image[1],enemy_image[2]);
@@ -29,8 +31,8 @@ public class Enemy extends GameObject {
         y += velY;
 
         choose = r.nextInt(10);
-        for(int i = 0; i < handler.object.size(); i++){
-            tempObject = handler.object.get(i);
+        for(int i = 0; i < handler.getObject().size(); i++){
+            tempObject = handler.getObject().get(i);
 
             if(tempObject.getId() == ID.Block){
                 if(getBoundsBig().intersects(tempObject.getBounds())){

@@ -5,9 +5,10 @@ import java.awt.event.MouseEvent;
 
 public class Bullet extends GameObject {
     private Handler handler;
+    private GameObject tempObject;
 
-    public Bullet(int x, int y, ID id,Handler handler, int mx, int my, SpriteSheet ss) {
-        super(x, y, id,ss);
+    public Bullet(int x, int y, ID id,Handler handler, int mx, int my,String path) {
+        super(x, y, id,path);
         this.handler = handler;
 
         velX = (mx - x) / 10;
@@ -17,8 +18,8 @@ public class Bullet extends GameObject {
     public void tick() {
         x += velX;
         y += velY;
-        for(int i = 0; i < handler.object.size(); i++){
-            GameObject tempObject = handler.object.get(i);
+        for(int i = 0; i < handler.getObject().size(); i++){
+            tempObject = handler.getObject().get(i);
 
             if(tempObject.getId() == ID.Block){
                 if(getBounds().intersects(tempObject.getBounds())){
@@ -31,8 +32,8 @@ public class Bullet extends GameObject {
     }
 
     public void render(Graphics g) {
-        g.setColor(Color.GREEN);
-        g.fillRect(x, y, 8, 8);
+        g.setColor(Color.RED);
+        g.fillOval(x,y,8,8);
     }
 
     public Rectangle getBounds() {

@@ -7,24 +7,27 @@ import java.util.LinkedList;
 
 public class Handler {
 
-    LinkedList<GameObject> object = new LinkedList<GameObject>();
+    private LinkedList<GameObject> object = new LinkedList<GameObject>();
+    private GameObject tempObject;
 
     private boolean up = false, down = false, right = false, left = false;
 
     public void tick(){
         for(int i = 0; i < object.size(); i++){
             GameObject tempObject = object.get(i);
-
             tempObject.tick();
         }
     }
 
     public void render (Graphics g){
         for(int i = 0; i < object.size(); i++){
-            GameObject tempObject = object.get(i);
-
+            tempObject = object.get(i);
             tempObject.render(g);
         }
+    }
+
+    public LinkedList<GameObject> getObject() {
+        return object;
     }
 
     public void addObject(GameObject tempObject){

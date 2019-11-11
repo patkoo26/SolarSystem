@@ -7,10 +7,14 @@ public class Crate extends GameObject {
 
     private Handler handler;
     private BufferedImage crate_image;
+    private SpriteSheet crateSpriteSheet;
 
-    public Crate(int x, int y, ID id, SpriteSheet ss) {
-        super(x, y, id,ss);
-        crate_image = ss.grabImage(6,2,32,32);
+    public Crate(int x, int y, ID id, String path) {
+        super(x, y, id,path);
+
+        BufferedImageLoader loader = new BufferedImageLoader();
+        crateSpriteSheet = new SpriteSheet(loader.loadImage(path));
+        crate_image = crateSpriteSheet.grabImage(1,1,32,32);
     }
 
     public void tick() {

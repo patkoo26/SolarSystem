@@ -2,25 +2,33 @@ package sk.patrik.oop;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 public class Soldier extends GameObject {
 
     private Handler handler;
     private GameObject tempObject;
-    private Game game;
-    private BufferedImage[] wizzard_image = new BufferedImage[3];
-
+    private int hp;
+    private int ammo;
+    private BufferedImage[] soldier_image = new BufferedImage[5];
+    private SpriteSheet soldierSpriteSheet;
     private Animation anim;
+    private Random r = new Random();
 
-    public Soldier(int x, int y, ID id, Handler handler, Game game, SpriteSheet ss) {
-        super(x, y, id,ss);
+    public Soldier(int x, int y, ID id, Handler handler, String path, int hp, int ammo) {
+        super(x, y, id,path);
         this.handler = handler;
-        this.game = game;
-        for(int i = 0; i < wizzard_image.length;i++) {
-            wizzard_image[i] = ss.grabImage(i+1, 1, 32, 48);
+        this.hp = hp;
+        this.ammo = ammo;
+        BufferedImageLoader loader = new BufferedImageLoader();
+        soldierSpriteSheet = new SpriteSheet(loader.loadImage(path));
+        //sunAnimation = sunSpriteSheet.grabImage(1,1,32,32);
+
+        for(int i = 0; i < soldier_image.length;i++) {
+            soldier_image[i] = soldierSpriteSheet.grabImage(i+1, 1, 32, 32);
         }
 
-        anim = new Animation(3, wizzard_image[0],wizzard_image[1],wizzard_image[2]);
+        anim = new Animation(3, soldier_image[0],soldier_image[1],soldier_image[2],soldier_image[3],soldier_image[4]);
     }
 
     public void tick() {
@@ -45,8 +53,8 @@ public class Soldier extends GameObject {
     }
 
     private void collision(){
-        for(int i = 0; i < handler.object.size(); i++){
-            tempObject = handler.object.get(i);
+        for(int i = 0; i < handler.getObject().size(); i++){
+            tempObject = handler.getObject().get(i);
             if(tempObject.getId() == ID.Block){
                 if(getBounds().intersects(tempObject.getBounds())){
                     x += velX * -1;
@@ -56,15 +64,18 @@ public class Soldier extends GameObject {
 
             if(tempObject.getId() == ID.Crate){
                 if(getBounds().intersects(tempObject.getBounds())){
-                    game.setAmmo(game.getAmmo()+10);
+                    if(r.nextBoolean())
+                        setAmmo(getAmmo()+10);
+                    else
+                        setHp(100);
                     handler.removeObject(tempObject);
                 }
             }
 
             if(tempObject.getId() == ID.Enemy){
                 if(getBounds().intersects(tempObject.getBounds())){
-                    game.setHp(game.getHp()-1);
-                    if(game.getHp() <= 0){
+                    setHp(getHp()-1);
+                    if(getHp() <= 0){
                         handler.removeObject(this);
                     }
                 }
@@ -74,14 +85,35 @@ public class Soldier extends GameObject {
 
     public void render(Graphics g) {
         if(velX == 0 && velY == 0) {
-            g.drawImage(wizzard_image[0], x, y, null);
+            g.drawImage(soldier_image[0], x, y, null);
         }else{
             anim.drawAnimation(g,x,y,0);
         }
 
     }
 
+    //********************health*****************
+    public int getHp() {
+        return hp;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
+
+    //************************************ammo***********************
+
+    public int getAmmo() {
+        return ammo;
+    }
+
+    public void setAmmo(int ammo) {
+        this.ammo = ammo;
+    }
+
+    //***********************************************
+
     public Rectangle getBounds() {
-        return new Rectangle(x, y, 32,48);
+        return new Rectangle(x, y, 32,32);
     }
 }

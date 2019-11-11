@@ -6,14 +6,14 @@ import java.awt.event.MouseEvent;
 public class MouseInput extends MouseAdapter {
     private Handler handler;
     private Camera camera;
-    private Game game;
-    private SpriteSheet ss;
+    private Soldier soldier;
 
-    public MouseInput(Handler handler, Camera camera, Game game, SpriteSheet ss){
+    private GameObject tempObject;
+
+    public MouseInput(Handler handler, Camera camera, Soldier soldier){
         this.handler = handler;
         this.camera = camera;
-        this.game = game;
-        this.ss = ss;
+        this.soldier = soldier;
     }
 
 
@@ -21,14 +21,21 @@ public class MouseInput extends MouseAdapter {
         int mx = (int) (e.getX() + camera.getX());
         int my = (int) (e.getY() + camera.getY());
 
-        for(int i = 0; i < handler.object.size(); i++){
-            GameObject tempObject = handler.object.get(i);
+        /*for(int i = 0; i < handler.getObject().size(); i++){
+            tempObject = handler.getObject().get(i);
 
-            if(tempObject.getId() == ID.Player && game.getAmmo() > 0)  {
-                handler.addObject(new Bullet(tempObject.getX()+16,tempObject.getY()+16,ID.Bullet,handler, mx,my,ss));
-                game.setAmmo(game.getAmmo()-1);
+            if(tempObject.getId() == ID.Player && soldier.getAmmo() > 0 && Game.getLevel() == 2)  {
+                handler.addObject(new Bullet(tempObject.getX()+16,tempObject.getY()+16,ID.Bullet,handler, mx,my,null));
+                soldier.setAmmo(soldier.getAmmo()-1);
+            }
+        }*/
+        if(soldier != null) {
+            if (soldier.getAmmo() > 0 && Game.getLevel() == 2) {
+                handler.addObject(new Bullet(soldier.getX() + 16, soldier.getY() + 16, ID.Bullet, handler, mx, my, null));
+                soldier.setAmmo(soldier.getAmmo() - 1);
             }
         }
     }
+
 
 }

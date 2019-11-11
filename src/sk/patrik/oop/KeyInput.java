@@ -15,8 +15,8 @@ public class KeyInput extends KeyAdapter {
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
 
-        for(int i = 0;i < handler.object.size(); i++){
-            tempObject = handler.object.get(i);
+        for(int i = 0;i < handler.getObject().size(); i++){
+            tempObject = handler.getObject().get(i);
 
             if(tempObject.getId() == ID.Player){
                 if(key == KeyEvent.VK_W) handler.setUp(true);
@@ -30,8 +30,8 @@ public class KeyInput extends KeyAdapter {
     public void keyReleased(KeyEvent e) {
         int key = e.getKeyCode();
 
-        for(int i = 0; i < handler.object.size(); i++){
-            tempObject = handler.object.get(i);
+        for(int i = 0; i < handler.getObject().size(); i++){
+            tempObject = handler.getObject().get(i);
 
             if(tempObject.getId() == ID.Player){
                 if(key == KeyEvent.VK_W) handler.setUp(false);
