@@ -1,6 +1,7 @@
 package sk.patrik.oop;
 
 import sk.patrik.oop.enemies.Enemy;
+import sk.patrik.oop.enemies.SmartEnemy;
 import sk.patrik.oop.game.*;
 import sk.patrik.oop.game.Window;
 import sk.patrik.oop.planets.Asteroid;
@@ -198,7 +199,10 @@ public class Game extends Canvas implements Runnable {
                     }
 
                     if (green == 255 && blue == 0 && red == 0)
-                        handler.addObject(new Enemy(xx * 32, yy * 32, ID.Enemy, handler, "/sprite_sheet.png"));
+                        handler.addObject(new Enemy(xx * 32, yy * 32, ID.Enemy, handler, "/sprite_sheet.png",100));
+
+                    if (green == 255 && blue == 255 && red == 255)
+                        handler.addObject(new SmartEnemy(xx * 32, yy * 32, ID.Enemy, handler, "/sprite_sheet.png",200));
 
                     if (green == 255 && blue == 255 && red == 0)
                         handler.addObject(new Ammo(xx * 32, yy * 32, ID.Ammo, "/box.png"));
