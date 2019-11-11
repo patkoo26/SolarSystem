@@ -1,4 +1,4 @@
-package sk.patrik.oop;
+package sk.patrik.oop.game;
 
 import java.awt.*;
 

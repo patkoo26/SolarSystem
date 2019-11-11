@@ -1,4 +1,8 @@
-package sk.patrik.oop;
+package sk.patrik.oop.game;
+
+import sk.patrik.oop.weapons.Bullet;
+import sk.patrik.oop.Game;
+import sk.patrik.oop.players.Soldier;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

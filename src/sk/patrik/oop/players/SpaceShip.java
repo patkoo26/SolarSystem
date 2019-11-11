@@ -1,4 +1,9 @@
-package sk.patrik.oop;
+package sk.patrik.oop.players;
+
+import sk.patrik.oop.game.ID;
+import sk.patrik.oop.game.SpriteSheet;
+import sk.patrik.oop.game.BufferedImageLoader;
+import sk.patrik.oop.game.GameObject;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

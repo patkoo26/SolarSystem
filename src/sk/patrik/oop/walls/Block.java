@@ -1,9 +1,12 @@
-package sk.patrik.oop;
+package sk.patrik.oop.walls;
+
+import sk.patrik.oop.game.GameObject;
+import sk.patrik.oop.game.ID;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Block extends GameObject{
+public class Block extends GameObject {
     private BufferedImage block_image;
     public Block(int x, int y, ID id, String path) {
         super(x, y, id,path);

@@ -1,4 +1,4 @@
-package sk.patrik.oop;
+package sk.patrik.oop.game;
 
 public enum ID {
 
@@ -11,7 +11,8 @@ public enum ID {
     Earth(),
 
     //******************level 2********************
-    Crate(),
+    Ammo(),
+    FirstAid(),
     Bullet(),
     Enemy(),
     Block();

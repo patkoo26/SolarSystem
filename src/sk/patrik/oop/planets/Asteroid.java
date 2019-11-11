@@ -1,6 +1,7 @@
 package sk.patrik.oop.planets;
 
-import sk.patrik.oop.*;
+import sk.patrik.oop.game.*;
+import sk.patrik.oop.players.SpaceShip;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -11,7 +12,7 @@ public class Asteroid extends GameObject {
     private GameObject tempObject;
 
     private Handler handler;
-    public Asteroid(int x, int y, ID id, String path,Handler handler) {
+    public Asteroid(int x, int y, ID id, String path, Handler handler) {
         super(x, y, id, path);
         this.handler = handler;
         BufferedImageLoader loader = new BufferedImageLoader();

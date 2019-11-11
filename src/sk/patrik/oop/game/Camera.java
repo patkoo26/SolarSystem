@@ -1,4 +1,6 @@
-package sk.patrik.oop;
+package sk.patrik.oop.game;
+
+import sk.patrik.oop.Game;
 
 public class Camera {
 
@@ -12,11 +14,6 @@ public class Camera {
     public void tick(GameObject object){
         x += ((object.getX() - x) - 1000/2) * 0.05f;
         y += ((object.getY() - y) - 563/2) * 0.05f;
-
-        /*if(x <= 0) x = 0;
-        if(x >= 1048) x = 1048;
-        if(y <= 0) y=0;
-        if(y >= 563+48) y = 563+48;*/
         if(x <= 0) x = 0;
         if(x >= 1048) x = 1048;
         if(y <= 0) y=0;

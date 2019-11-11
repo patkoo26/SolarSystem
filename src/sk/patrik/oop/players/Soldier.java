@@ -1,4 +1,11 @@
-package sk.patrik.oop;
+package sk.patrik.oop.players;
+
+import sk.patrik.oop.game.ID;
+import sk.patrik.oop.game.SpriteSheet;
+import sk.patrik.oop.game.Animation;
+import sk.patrik.oop.game.BufferedImageLoader;
+import sk.patrik.oop.game.GameObject;
+import sk.patrik.oop.game.Handler;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -10,10 +17,10 @@ public class Soldier extends GameObject {
     private GameObject tempObject;
     private int hp;
     private int ammo;
+    private Graphics2D graphics2D;
     private BufferedImage[] soldier_image = new BufferedImage[5];
     private SpriteSheet soldierSpriteSheet;
     private Animation anim;
-    private Random r = new Random();
 
     public Soldier(int x, int y, ID id, Handler handler, String path, int hp, int ammo) {
         super(x, y, id,path);
@@ -22,12 +29,9 @@ public class Soldier extends GameObject {
         this.ammo = ammo;
         BufferedImageLoader loader = new BufferedImageLoader();
         soldierSpriteSheet = new SpriteSheet(loader.loadImage(path));
-        //sunAnimation = sunSpriteSheet.grabImage(1,1,32,32);
-
         for(int i = 0; i < soldier_image.length;i++) {
             soldier_image[i] = soldierSpriteSheet.grabImage(i+1, 1, 32, 32);
         }
-
         anim = new Animation(3, soldier_image[0],soldier_image[1],soldier_image[2],soldier_image[3],soldier_image[4]);
     }
 
@@ -62,12 +66,16 @@ public class Soldier extends GameObject {
                 }
             }
 
-            if(tempObject.getId() == ID.Crate){
+            if(tempObject.getId() == ID.Ammo){
                 if(getBounds().intersects(tempObject.getBounds())){
-                    if(r.nextBoolean())
-                        setAmmo(getAmmo()+10);
-                    else
-                        setHp(100);
+                    setAmmo(getAmmo()+10);
+                    handler.removeObject(tempObject);
+                }
+            }
+
+            if(tempObject.getId() == ID.FirstAid){
+                if(getBounds().intersects(tempObject.getBounds()) && getHp() < 100){
+                    setHp(100);
                     handler.removeObject(tempObject);
                 }
             }
@@ -89,7 +97,6 @@ public class Soldier extends GameObject {
         }else{
             anim.drawAnimation(g,x,y,0);
         }
-
     }
 
     //********************health*****************

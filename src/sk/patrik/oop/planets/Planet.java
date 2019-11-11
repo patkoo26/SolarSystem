@@ -1,9 +1,9 @@
 package sk.patrik.oop.planets;
 
-import sk.patrik.oop.BufferedImageLoader;
-import sk.patrik.oop.GameObject;
-import sk.patrik.oop.ID;
-import sk.patrik.oop.SpriteSheet;
+import sk.patrik.oop.game.BufferedImageLoader;
+import sk.patrik.oop.game.GameObject;
+import sk.patrik.oop.game.ID;
+import sk.patrik.oop.game.SpriteSheet;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

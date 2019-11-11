@@ -1,6 +1,6 @@
-package sk.patrik.oop;
+package sk.patrik.oop.game;
 
-import sk.patrik.oop.GameObject;
+import sk.patrik.oop.game.GameObject;
 
 import java.awt.*;
 import java.util.LinkedList;

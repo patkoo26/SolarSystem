@@ -1,4 +1,6 @@
-package sk.patrik.oop;
+package sk.patrik.oop.enemies;
+
+import sk.patrik.oop.game.*;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

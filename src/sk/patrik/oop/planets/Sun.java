@@ -1,12 +1,13 @@
 package sk.patrik.oop.planets;
 
 
-import javafx.animation.Animation;
-import sk.patrik.oop.*;
+import sk.patrik.oop.game.BufferedImageLoader;
+import sk.patrik.oop.game.GameObject;
+import sk.patrik.oop.game.ID;
+import sk.patrik.oop.game.SpriteSheet;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.Random;
 
 
 public class Sun extends GameObject {

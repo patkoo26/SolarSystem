@@ -1,13 +1,16 @@
-package sk.patrik.oop;
+package sk.patrik.oop.weapons;
+
+import sk.patrik.oop.game.ID;
+import sk.patrik.oop.game.GameObject;
+import sk.patrik.oop.game.Handler;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
 
 public class Bullet extends GameObject {
     private Handler handler;
     private GameObject tempObject;
 
-    public Bullet(int x, int y, ID id,Handler handler, int mx, int my,String path) {
+    public Bullet(int x, int y, ID id, Handler handler, int mx, int my, String path) {
         super(x, y, id,path);
         this.handler = handler;
 

@@ -1,4 +1,4 @@
-package sk.patrik.oop;
+package sk.patrik.oop.game;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

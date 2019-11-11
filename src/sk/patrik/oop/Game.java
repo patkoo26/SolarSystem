@@ -1,8 +1,16 @@
 package sk.patrik.oop;
 
+import sk.patrik.oop.enemies.Enemy;
+import sk.patrik.oop.game.*;
+import sk.patrik.oop.game.Window;
 import sk.patrik.oop.planets.Asteroid;
 import sk.patrik.oop.planets.Planet;
 import sk.patrik.oop.planets.Sun;
+import sk.patrik.oop.players.Soldier;
+import sk.patrik.oop.players.SpaceShip;
+import sk.patrik.oop.usable.Ammo;
+import sk.patrik.oop.usable.FirstAid;
+import sk.patrik.oop.walls.Block;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -131,10 +139,8 @@ public class Game extends Canvas implements Runnable {
         handler.render(g);
         g2d.translate(camera.getX(), camera.getY());
 
-
-
-        //**********health bar********************
         if(level == 2) {
+            //**********health bar********************
             g.setColor(Color.GRAY);
             g.fillRect(5, 5, 200, 32);
             g.setColor(Color.GREEN);
@@ -182,7 +188,7 @@ public class Game extends Canvas implements Runnable {
                     green = (pixel >> 8) & 0xff;
                     blue = (pixel) & 0xff;
 
-                    if (red == 255 && blue == 0)
+                    if (red == 255 && blue == 0 && green == 0)
                         handler.addObject(new Block(xx * 32, yy * 32, ID.Block, null));
 
                     if (blue == 255 && green == 0 && red == 0) {
@@ -190,11 +196,15 @@ public class Game extends Canvas implements Runnable {
                         handler.addObject(soldier);
                         this.addMouseListener(new MouseInput(handler, camera, soldier));
                     }
-                    if (green == 255 && blue == 0)
+
+                    if (green == 255 && blue == 0 && red == 0)
                         handler.addObject(new Enemy(xx * 32, yy * 32, ID.Enemy, handler, "/sprite_sheet.png"));
 
-                    if (green == 255 && blue == 255)
-                        handler.addObject(new Crate(xx * 32, yy * 32, ID.Crate, "/box.png"));
+                    if (green == 255 && blue == 255 && red == 0)
+                        handler.addObject(new Ammo(xx * 32, yy * 32, ID.Ammo, "/box.png"));
+
+                    if (red == 255 && green == 255 && blue == 0)
+                        handler.addObject(new FirstAid(xx * 32, yy * 32, ID.FirstAid, "/box.png"));
                 }
             }
         }
