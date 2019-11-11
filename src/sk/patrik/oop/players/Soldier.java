@@ -22,11 +22,16 @@ public class Soldier extends GameObject {
     private SpriteSheet soldierSpriteSheet;
     private Animation anim;
 
+
+
+    private static boolean isEnd;
+
     public Soldier(int x, int y, ID id, Handler handler, String path, int hp, int ammo) {
         super(x, y, id,path);
         this.handler = handler;
         this.hp = hp;
         this.ammo = ammo;
+        isEnd = false;
         BufferedImageLoader loader = new BufferedImageLoader();
         soldierSpriteSheet = new SpriteSheet(loader.loadImage(path));
         for(int i = 0; i < soldier_image.length;i++) {
@@ -84,6 +89,7 @@ public class Soldier extends GameObject {
                 if(getBounds().intersects(tempObject.getBounds())){
                     setHp(getHp()-1);
                     if(getHp() <= 0){
+                        isEnd = true;
                         handler.removeObject(this);
                     }
                 }
@@ -119,6 +125,11 @@ public class Soldier extends GameObject {
     }
 
     //***********************************************
+
+
+    public static boolean isEnd() {
+        return isEnd;
+    }
 
     public Rectangle getBounds() {
         return new Rectangle(x, y, 32,32);

@@ -153,6 +153,14 @@ public class Game extends Canvas implements Runnable {
             g.setColor(Color.white);
             g.setFont(new Font("TimesRoman", Font.BOLD,15));
             g.drawString("Ammo : " + soldier.getAmmo(), 5, 50);
+
+            //*****************game over*****************
+
+            if(Soldier.isEnd()){
+                g.setColor(Color.RED);
+                g.setFont(new Font("TimesRoman", Font.BOLD,50));
+                g.drawString("GAME OVER!", 300,300);
+            }
         }
         if(level == 1){
             g.setColor(Color.RED);
