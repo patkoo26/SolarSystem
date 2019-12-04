@@ -5,6 +5,7 @@ import sk.patrik.oop.enemies.SmartEnemy;
 import sk.patrik.oop.game.*;
 import sk.patrik.oop.game.Window;
 import sk.patrik.oop.planets.Asteroid;
+import sk.patrik.oop.planets.Moon;
 import sk.patrik.oop.planets.Planet;
 import sk.patrik.oop.planets.Sun;
 import sk.patrik.oop.players.Soldier;
@@ -213,10 +214,10 @@ public class Game extends Canvas implements Runnable {
                         handler.addObject(new SmartEnemy(xx * 32, yy * 32, ID.Enemy, handler, "/sprite_sheet.png",200));
 
                     if (green == 255 && blue == 255 && red == 0)
-                        handler.addObject(new Ammo(xx * 32, yy * 32, ID.Ammo, "/box.png"));
+                        handler.addObject(new Ammo(xx * 32, yy * 32, ID.Ammo, "/box.png",Color.ORANGE, 100));
 
                     if (red == 255 && green == 255 && blue == 0)
-                        handler.addObject(new FirstAid(xx * 32, yy * 32, ID.FirstAid, "/box.png"));
+                        handler.addObject(new FirstAid(xx * 32, yy * 32, ID.FirstAid, "/box.png",Color.WHITE, 100));
                 }
             }
         }
@@ -245,8 +246,11 @@ public class Game extends Canvas implements Runnable {
                     if (red == 0 && blue == 255 && green == 0)
                         handler.addObject(new Planet(xx * 32, yy * 32, ID.Planet, "/venus.png", "Venus",0.4,sun));
 
-                    if (red == 0 && blue == 255 && green == 255)
-                        handler.addObject(new Planet(xx * 32, yy * 32, ID.Earth, "/earth.png","Earth",0.5,sun));
+                    if (red == 0 && blue == 255 && green == 255) {
+                        GameObject earth = new Planet(xx * 32, yy * 32, ID.Earth, "/earth.png", "Earth", 0.5, sun);
+                        handler.addObject(earth);
+                        handler.addObject(new Moon((xx*32)+10, yy*32, ID.Planet,"/venus.png", "Moon",1,earth));
+                    }
 
                     if (red == 255 && blue == 255 && green == 255)
                         handler.addObject(new Planet(xx * 32, yy * 32, ID.Planet, "/mars.png","Mars",0.75,sun));

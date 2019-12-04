@@ -11,12 +11,12 @@ import java.awt.image.BufferedImage;
 public class Planet extends GameObject {
     private int radiusOfOrbit;
     private String name;
-    private Sun sun;
+    private GameObject sun;
     private double speed, z =0.0;
     private SpriteSheet planetSpriteSheet;
     private BufferedImage planetAnimation;
 
-    public Planet(int x, int y, ID id, String path, String name,double speed, Sun sun) {
+    public Planet(int x, int y, ID id, String path, String name,double speed, GameObject sun) {
         super(x, y, id, path);
         this.name = name;
         this.sun = sun;
@@ -24,12 +24,11 @@ public class Planet extends GameObject {
         BufferedImageLoader loader = new BufferedImageLoader();
         planetSpriteSheet = new SpriteSheet(loader.loadImage(path));
         planetAnimation = planetSpriteSheet.grabImage(1,1,32,32);
-
-        radiusOfOrbit = calculateDistanceBetweenPoints(sun.getSunX(),sun.getSunY(),x,y);
+        radiusOfOrbit = calculateDistanceBetweenPoints(sun.getX(),sun.getY(),x,y);
     }
 
 
-    private int calculateDistanceBetweenPoints(int x1, int y1, int x2, int y2) {
+    public int calculateDistanceBetweenPoints(int x1, int y1, int x2, int y2) {
         return (int)Math.sqrt((y2 - y1) * (y2 - y1) + (x2 - x1) * (x2 - x1));
     }
 
@@ -39,8 +38,8 @@ public class Planet extends GameObject {
 
     public void tick() {
 
-        x = (int) (sun.getSunX() + radiusOfOrbit * Math.cos(Math.toRadians(z)));
-        y = (int) (sun.getSunY() + (radiusOfOrbit + 20) * Math.sin(Math.toRadians(z)));
+        x = (int) (sun.getX() + radiusOfOrbit * Math.cos(Math.toRadians(z)));
+        y = (int) (sun.getY() + (radiusOfOrbit + 20) * Math.sin(Math.toRadians(z)));
         z = z+speed;
         if(z >= 360) {
             z=0;
@@ -50,7 +49,7 @@ public class Planet extends GameObject {
     public void render(Graphics g) {
         //Draw orbit
         g.setColor(Color.white);
-        g.drawOval(sun.getSunX()+16 - radiusOfOrbit, sun.getSunY()+16 - (radiusOfOrbit+20), radiusOfOrbit * 2, (radiusOfOrbit+20) * 2);
+        g.drawOval(sun.getX()+16 - radiusOfOrbit, sun.getY()+16 - (radiusOfOrbit+20), radiusOfOrbit * 2, (radiusOfOrbit+20) * 2);
 
         //Draw planet
         g.drawImage(planetAnimation,x,y,null);

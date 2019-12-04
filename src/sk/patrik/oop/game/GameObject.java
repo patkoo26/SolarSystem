@@ -3,7 +3,7 @@ package sk.patrik.oop.game;
 import java.awt.*;
 
 public abstract class GameObject {
-    protected int x = 0, y = 0;
+    protected int x = 0, y = 0, use;
     protected float velX = 0, velY = 0;
     protected String path;
 
@@ -25,6 +25,7 @@ public abstract class GameObject {
     public ID getId() {
         return id;
     }
+
 
     public void setId(ID id) {
         this.id = id;

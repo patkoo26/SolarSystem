@@ -6,6 +6,7 @@ import sk.patrik.oop.game.Animation;
 import sk.patrik.oop.game.BufferedImageLoader;
 import sk.patrik.oop.game.GameObject;
 import sk.patrik.oop.game.Handler;
+import sk.patrik.oop.usable.Usable;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -62,6 +63,18 @@ public class Soldier extends GameObject {
     }
 
     private void collision(){
+        /*Usable usable = null;
+        for(int i = 0;i < handler.getObject().size(); i++){
+            if(usable.getId() == ID.UsableItem){
+                usable =(Usable) handler.getObject().get(i);
+                if(getBounds().intersects(usable.getBounds()) && getHp() < 100){
+                    setHp(usable.getUse());
+                    handler.removeObject(tempObject);
+                }
+            }
+        }*/
+
+
         for(int i = 0; i < handler.getObject().size(); i++){
             tempObject = handler.getObject().get(i);
             if(tempObject.getId() == ID.Block){

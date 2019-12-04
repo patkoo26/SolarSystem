@@ -15,6 +15,7 @@ public enum ID {
     FirstAid(),
     Bullet(),
     Enemy(),
+    UsableItem(),
     Block();
 
 
