@@ -1,41 +1,40 @@
 package sk.patrik.oop.game;
 
-import sk.patrik.oop.game.GameObject;
+import sk.patrik.oop.game.objects.GameObject;
 
 import java.awt.*;
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Handler {
-
-    private LinkedList<GameObject> object = new LinkedList<GameObject>();
-    private GameObject tempObject;
-
+    private List<GameObject> objects = new ArrayList<>();
     private boolean up = false, down = false, right = false, left = false;
 
-    public void tick(){
-        for(int i = 0; i < object.size(); i++){
-            GameObject tempObject = object.get(i);
-            tempObject.tick();
+    public void tick() {
+        for (int i = 0; i < objects.size(); i++) {
+            GameObject gameObject = objects.get(i);
+            gameObject.tick();
         }
     }
 
-    public void render (Graphics g){
-        for(int i = 0; i < object.size(); i++){
-            tempObject = object.get(i);
-            tempObject.render(g);
+    public void render(Graphics g) {
+        for (int i = 0; i < objects.size(); i++) {
+            GameObject gameObject = objects.get(i);
+            gameObject.render(g);
         }
     }
 
-    public LinkedList<GameObject> getObject() {
-        return object;
+    public List<GameObject> getObjects() {
+        return new ArrayList<>(objects);
     }
 
-    public void addObject(GameObject tempObject){
-        object.add(tempObject);
+    public void addObject(GameObject gameObject) {
+        objects.add(gameObject);
+        gameObject.onHandlerAdd(this);
     }
 
-    public void removeObject(GameObject tempObject){
-        object.remove(tempObject);
+    public void removeObject(GameObject gameObject) {
+        objects.remove(gameObject);
     }
 
     public boolean isUp() {
