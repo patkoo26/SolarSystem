@@ -59,7 +59,7 @@ public class Asteroid extends AbstractControllablePlayer implements Player {
     /**
      * drawing object
      *
-     * @param g
+     * @param g graphic
      */
     @Override
     public void render(Graphics g) {

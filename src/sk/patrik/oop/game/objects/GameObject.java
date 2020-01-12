@@ -11,7 +11,7 @@ public interface GameObject {
     void tick();
 
     /**
-     * @param g
+     * @param g graphic
      */
     void render(Graphics g);
 
