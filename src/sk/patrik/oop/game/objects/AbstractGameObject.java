@@ -49,26 +49,6 @@ public abstract class AbstractGameObject implements GameObject {
     }
 
     @Override
-    public float getVelX() {
-        return velX;
-    }
-
-    @Override
-    public void setVelX(float velX) {
-        this.velX = velX;
-    }
-
-    @Override
-    public float getVelY() {
-        return velY;
-    }
-
-    @Override
-    public void setVelY(float velY) {
-        this.velY = velY;
-    }
-
-    @Override
     public Handler getHandler() {
         return handler;
     }

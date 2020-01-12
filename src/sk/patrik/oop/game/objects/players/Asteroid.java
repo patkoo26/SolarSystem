@@ -8,9 +8,20 @@ import sk.patrik.oop.game.objects.spacebodies.OrbitingSpaceBody;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+/**
+ * Represents controllable asteroid
+ */
+
 public class Asteroid extends AbstractControllablePlayer implements Player {
     private BufferedImage asteroidAnimation;
 
+    /**
+     * Constructor
+     *
+     * @param x    starting x position
+     * @param y    starting y position
+     * @param path path to the sprite
+     */
     public Asteroid(int x, int y, String path) {
         super(x, y, path);
         BufferedImageLoader loader = new BufferedImageLoader();
@@ -18,6 +29,9 @@ public class Asteroid extends AbstractControllablePlayer implements Player {
         asteroidAnimation = asteroidSpriteSheet.grabImage(1, 1, 32, 32);
     }
 
+    /**
+     * main
+     */
     @Override
     public void tick() {
         x += velX;
@@ -26,6 +40,9 @@ public class Asteroid extends AbstractControllablePlayer implements Player {
         collision();
     }
 
+    /**
+     * handles collision with earth
+     */
     private void collision() {
         for (int i = 0; i < getHandler().getObjects().size(); i++) {
             GameObject gameObject = getHandler().getObjects().get(i);
@@ -39,17 +56,28 @@ public class Asteroid extends AbstractControllablePlayer implements Player {
         }
     }
 
+    /**
+     * drawing object
+     *
+     * @param g
+     */
     @Override
     public void render(Graphics g) {
         g.drawImage(asteroidAnimation, x, y, null);
     }
 
+    /**
+     * @return bounds of object
+     */
     @Override
     public Rectangle getBounds() {
         return new Rectangle(x, y, 16, 16);
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void control() {
         super.control();

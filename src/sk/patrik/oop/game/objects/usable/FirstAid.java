@@ -12,6 +12,6 @@ public class FirstAid extends AbstractUsable {
 
     @Override
     public void use(Soldier soldier) {
-        soldier.setHp(100);
+        soldier.setHealth(100);
     }
 }

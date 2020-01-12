@@ -69,7 +69,7 @@ public class BasicEnemy extends AbstractGameObject implements Enemy {
         getHandler().getObjects().stream()
                 .filter(gameObject -> gameObject instanceof Soldier && getBounds().intersects(gameObject.getBounds()))
                 .findFirst()
-                .ifPresent(player -> ((Soldier) player).setHp(((Soldier) player).getHp() - 1));
+                .ifPresent(player -> ((Soldier) player).setHealth(((Soldier) player).getHealth() - 1));
     }
 
     /**
