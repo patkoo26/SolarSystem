@@ -121,7 +121,7 @@ public class Soldier extends AbstractControllablePlayer implements Player {
     }
 
     public Rectangle getBounds() {
-        return new Rectangle(x, y, 32, 32);
+        return new Rectangle(x, y, 24, 24);
     }
 
     /**

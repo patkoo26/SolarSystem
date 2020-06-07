@@ -9,21 +9,15 @@ import java.awt.image.BufferedImage;
 
 public abstract class AbstractUsable extends AbstractGameObject implements Usable {
     private BufferedImage usable_image;
-    protected Color color;
+    Color color;
 
-    private int use;
-
-    public AbstractUsable(int x, int y, String path, Color color, int use) {
+    AbstractUsable(int x, int y, String path, Color color) {
         super(x, y, path);
         this.color = color;
         SpriteSheet firstAidSpriteSheet;
         BufferedImageLoader loader = new BufferedImageLoader();
         firstAidSpriteSheet = new SpriteSheet(loader.loadImage(path));
         usable_image = firstAidSpriteSheet.grabImage(1, 1, 32, 32);
-    }
-
-    public int getUse() {
-        return use;
     }
 
     @Override

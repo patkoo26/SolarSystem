@@ -6,8 +6,8 @@ import java.awt.*;
 
 public class Ammo extends AbstractUsable {
 
-    public Ammo(int x, int y, String path, Color color, int use) {
-        super(x, y, path, color, use);
+    public Ammo(int x, int y, String path, Color color) {
+        super(x, y, path, color);
     }
 
     @Override

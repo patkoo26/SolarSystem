@@ -229,10 +229,10 @@ public class Game extends Canvas implements Runnable {
                         handler.addObject(new SmartEnemy(xx * 32, yy * 32, ENEMY_IMAGE_PATH, 200));
 
                     if (green == 255 && blue == 255 && red == 0)
-                        handler.addObject(new Ammo(xx * 32, yy * 32, BOX_IMAGE_PATH, Color.ORANGE, 100));
+                        handler.addObject(new Ammo(xx * 32, yy * 32, BOX_IMAGE_PATH, Color.ORANGE));
 
                     if (red == 255 && green == 255 && blue == 0)
-                        handler.addObject(new FirstAid(xx * 32, yy * 32, BOX_IMAGE_PATH, Color.WHITE, 100));
+                        handler.addObject(new FirstAid(xx * 32, yy * 32, BOX_IMAGE_PATH, Color.WHITE));
                 }
             }
         }

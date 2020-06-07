@@ -30,7 +30,7 @@ public class Asteroid extends AbstractControllablePlayer implements Player {
     }
 
     /**
-     * main
+     * handle x and y positions
      */
     @Override
     public void tick() {

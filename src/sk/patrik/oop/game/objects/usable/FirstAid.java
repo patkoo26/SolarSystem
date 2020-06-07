@@ -6,8 +6,8 @@ import java.awt.*;
 
 public class FirstAid extends AbstractUsable {
 
-    public FirstAid(int x, int y, String path, Color color, int use) {
-        super(x, y, path, color, use);
+    public FirstAid(int x, int y, String path, Color color) {
+        super(x, y, path, color);
     }
 
     @Override
